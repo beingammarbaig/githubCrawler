@@ -8,12 +8,6 @@ A small Python crawler using GitHub’s GraphQL API to collect repository stars 
 - Runs daily with GitHub Actions
 - Uploads a CSV artifact of crawled data
 
-## Run locally
-```bash
-pip install -r requirements.txt
-export DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
-export GITHUB_TOKEN="ghp_xxx"
-python crawler.py
 # 🚀 GitHub Stars Crawler
 
 A fully automated GitHub repository crawler using the **GraphQL API** that collects and stores repository star data in **PostgreSQL**, runs via **GitHub Actions**, and exports the results as a **CSV artifact**.
@@ -56,4 +50,13 @@ CREATE TABLE IF NOT EXISTS repositories (
   stars INTEGER,
   fetched_at TIMESTAMP DEFAULT NOW()
 );
+
+
+
+## Run locally
+```bash
+pip install -r requirements.txt
+export DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
+export GITHUB_TOKEN="ghp_xxx"
+python crawler.py
 
