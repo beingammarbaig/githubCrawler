@@ -1,13 +1,3 @@
-# GitHub Crawle Simple
-
-A small Python crawler using GitHub’s GraphQL API to collect repository stars and store them in PostgreSQL.
-
-## How it works
-- Uses GitHub GraphQL API
-- Stores repo data in Postgres
-- Runs daily with GitHub Actions
-- Uploads a CSV artifact of crawled data
-
 # 🚀 GitHub Stars Crawler
 
 A fully automated GitHub repository crawler using the **GraphQL API** that collects and stores repository star data in **PostgreSQL**, runs via **GitHub Actions**, and exports the results as a **CSV artifact**.
