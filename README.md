@@ -50,13 +50,70 @@ CREATE TABLE IF NOT EXISTS repositories (
   stars INTEGER,
   fetched_at TIMESTAMP DEFAULT NOW()
 );
+```
+## 🧠 Software Design
 
+- **crawler.py** → Handles only fetching repository data  
+- **db.py** → Handles schema creation, inserts, and CSV dumps  
+- **crawl.yml** → Automates the workflow in GitHub Actions  
 
+Follows **separation of concerns**, immutability of configuration, and clean architecture principles. Each run is independent and stateless.
 
-## Run locally
-```bash
-pip install -r requirements.txt
-export DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
-export GITHUB_TOKEN="ghp_xxx"
-python crawler.py
+---
 
+## ⚡ Scaling for 500M Repositories
+
+| Area       | Current          | Scaled                         |
+|------------|-----------------|--------------------------------|
+| Storage    | Single Postgres  | Sharded / Cloud DB            |
+| Crawling   | Single-threaded  | Distributed workers           |
+| API        | Single token     | Multiple tokens / async       |
+| Updates    | Full refresh     | Incremental deltas            |
+
+---
+
+## 🧬 Future Schema Example
+
+```sql
+CREATE TABLE issues (
+  id SERIAL PRIMARY KEY,
+  repo_id BIGINT REFERENCES repositories(repo_id),
+  issue_number INT,
+  comments_count INT,
+  updated_at TIMESTAMP
+);
+```
+```sql
+INSERT INTO issues (...) VALUES (...)
+ON CONFLICT (repo_id, issue_number) DO UPDATE
+SET comments_count = EXCLUDED.comments_count,
+    updated_at = EXCLUDED.updated_at;
+```
+
+---
+
+## 🧰 Tech Stack
+
+| Component | Tool |
+|------------|------|
+| **Language** | Python 3.10 |
+| **API** | GitHub GraphQL |
+| **Database** | PostgreSQL |
+| **CI/CD** | GitHub Actions |
+| **Output** | CSV Artifact |
+
+---
+
+## ✅ Deliverables
+
+- PostgreSQL service container ✅  
+- Schema creation ✅  
+- Crawling 100k repositories ✅  
+- Data dump & artifact upload ✅  
+- Default GitHub Token used ✅  
+- Successful workflow run ✅  
+
+---
+
+**Author:** Mirza Muhammad Ammar Baig  
+**Role:** Software Engineer – GitHub Crawler Assignment
